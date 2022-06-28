@@ -8,7 +8,8 @@ internal class EfCore
         InsertEntity("Jan", "Müller");
         // DeleteEntity(1);
         // UpdateEntity(1,"Erik","Meier");
-
+        ShowAllPerson();
+        UpdateEntity(1, "Maik", "E");
         ShowAllPerson();
     }
 
