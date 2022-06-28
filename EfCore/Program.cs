@@ -42,7 +42,6 @@ internal class EfCore
 
     public static void UpdateEntity(int id, string vorname, string nachname)
     {
-        //Todo: Update machen
         using (var db = new PersonDbContext())
         {
             var person = db.Personen.Single(x => x.Id == id);
