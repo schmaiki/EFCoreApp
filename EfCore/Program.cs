@@ -1,29 +1,29 @@
 ﻿namespace EFCore;
 
-internal class EfCore
+public class EfCore
 {
-    public static void Main()
+    public static async Task Main()
     {
         WriteLine("Hallo, EF Core !\n");
-        InsertEntity("Jan", "Müller");
+        await InsertEntity("Jan", "Müller");
         // DeleteEntity(1);
         // UpdateEntity(1,"Erik","Meier");
-        ShowAllPerson();
-        UpdateEntity(1, "Maik", "E");
-        ShowAllPerson();
+        await ShowAllPerson();
+        await UpdateEntity(1, "Maik", "E");
+        await ShowAllPerson();
     }
 
-    public static void ShowAllPerson()
+    public static async Task ShowAllPerson()
     {
         using (var db = new PersonDbContext())
         {
             WriteLine("Daten aus DB lesen !!!\n");
-            foreach (var person in db.Personen)
+            await foreach (var person in db.Personen)
                 WriteLine($"{person.Id} {person.Vorname} {person.Nachname}");
         }
     }
 
-    public static void DeleteEntity(int loeschenId)
+    public static async Task DeleteEntity(int loeschenId)
     {
         using (var db = new PersonDbContext())
         {
@@ -36,11 +36,11 @@ internal class EfCore
             //Löschen Variante 2
             var person = new Person { Id = loeschenId };
             db.Entry(person).State = EntityState.Deleted;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 
-    public static void UpdateEntity(int id, string vorname, string nachname)
+    public static async Task UpdateEntity(int id, string vorname, string nachname)
     {
         using (var db = new PersonDbContext())
         {
@@ -56,11 +56,11 @@ internal class EfCore
                 person.Nachname = nachname;
             }
 
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 
-    public static void InsertEntity(string vorname, string nachname)
+    public static async Task InsertEntity(string vorname, string nachname)
     {
         using (var db = new PersonDbContext())
         {
@@ -68,7 +68,7 @@ internal class EfCore
             person.Vorname = vorname;
             person.Nachname = nachname;
             db.Entry(person).State = EntityState.Added;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 }
